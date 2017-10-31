@@ -1,0 +1,28 @@
+Here are the modules we [tentatively] decided on during today's kickoff:
+--------------------------------------------------------------------------------
+    (MODULE)        -->   (OWNER)
+--------------------------------------------------------------------------------
+    CHARACTERS      -->   Wade Pentz 
+    SETTINGS        -->   Sam Stuver
+    CONFLICTS       -->   Brady Knittle
+    USER-INTERFACE  -->   Kate Kennedy
+    PLOT            -->   Sam Nilsson
+    WORLD-CREATOR   -->   Kevin Klinkel
+    -----------------------------------------
+    MISSION (JSON)  -->  (everyone, later on)
+--------------------------------------------------------------------------------
+
+TO DO:
+  - Think about your module, and how it might relate to all the other modules.
+  
+  - If you can, try to diagram out your module:
+      - UML Class Diagram (classes, inheritance, instantiation)
+      
+  - Also think about what else your module could have
+      - Functions belonging to the module
+      - Variables belonging to the module
+
+Think about...
+what is private to your module,
+what you intend for others to import,
+and what you'll need to import from others.
