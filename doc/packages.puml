@@ -18,204 +18,241 @@ skinparam object {
 ' PACKAGES
 '-------------------------------------------------------------------------------
 '_______________________________________________________________________________
-package Setting <<Folder>> {
-    class Room {
-        contents : []
-        doors : []
-        self.discovered : False
-        describe(self)
+package "Mission Creation" <<Cloud>> {
+    '_______________________________________________________________________________
+    package Character <<Folder>> {
+        class Character {
+            name : ''
+            image : ''
+            hp : 100
+        }
+        class Protagonist {
+            body_type : ''
+            mind_type : ''
+            inventory : []
+            skills : []
+        }
+
+        '----------------------------------
+        class Enemy {
+            skills : []
+            inventory : []
+        }
+        Character <|-- Protagonist
+        Character <|-- Enemy
+
+        '----------------------------------
+        class Interactible {
+            inspect(self)
+        }
+        class Item {
+            pick_up(self)
+            use(self)
+        }   
+        Interactible <|-- Item
+
+        '----------------------------------
+        class Door {
+            self.rooms = [room1, room2]
+            self.key : None
+            self.status : (closed, unlocked)
+            unlock(self)
+            open(self)
+            'toggle current_room between rooms in self.rooms
+            use(self): Toggle current_room
+        }
+        Interactible <|-- Door
     }
 
-    class Map {
-        draw_map()
-        draw_room()
-        draw_minimap()
+    '_______________________________________________________________________________
+    package Setting <<Folder>> {
+        class Room {
+            contents : []
+            doors : []
+            self.discovered : False
+            describe(self)
+        }
+
+        class Map {
+            draw_map()
+            draw_room()
+            draw_minimap()
+        }
+    }
+
+    '_______________________________________________________________________________
+    package Plot <<Folder>> {
+        class Checker {
+            win_conditions : []
+            lose_conditions : []
+            trigger_events : []
+
+            add_win_condition()
+            add_lose_condition()
+            check_win_conditions()
+            check_lose_conditions()
+            check_trigger_events()
+            cut_scene()
+        }
+
+        '----------------------------------
+        class Condition {
+            die()
+            is_in()
+            less_than()
+            greater_than()
+            equal_to()
+            less_than_or_equal_to()
+            greater_than_or_equal_to()
+        }
     }
 }
+
 
 '_______________________________________________________________________________
-package Character <<Folder>> {
-    class Character {
-        name : ''
-        image : ''
-        hp : 100
-    }
-    class Protagonist {
-        body_type : ''
-        mind_type : ''
-        inventory : []
-        skills : []
-    }
+package Mission <<Node>> {
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    '' The mission file instantiates everything that will exist in the mission.
+    ''      - characters (hero, enemies, etc.)
+    ''      - map (rooms, doors, and layout)
+    ''      - items
+    ''      - plot (win/lose conditions, trigger conditions, etc.)
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    object hero
+    Protagonist <|-- hero
 
-    '----------------------------------
-    class Enemy {
-        skills : []
-        inventory : []
-    }
-    Character <|-- Protagonist
-    Character <|-- Enemy
+    object skeleton
+    Enemy <|-- skeleton
 
-    '----------------------------------
-    class Interactible {
-        inspect(self)
-    }
-    class Item {
-        pick_up(self)
-        use(self)
-    }   
-    Interactible <|-- Item
+    object diamond
+    Item <|-- diamond
 
-    '----------------------------------
-    class Door {
-        self.rooms = [room1, room2]
-        self.key : None
-        self.status : (closed, unlocked)
-        unlock(self)
-        open(self)
-        'toggle current_room between rooms in self.rooms
-        use(self): Toggle current_room
-    }
-    Interactible <|-- Door
+    object key
+    Item <|-- key
+
+    object room_1
+    object room_2
+    Room <|-- room_1
+    Room <|-- room_2
+
+    object door_1_2
+    Door <|-- door_1_2
+    'room_1   .. door_1_2
+    'door_1_2 .. room_2
+
+    object map
+    Map <|-- map
+
+    object plot_checker
+    Checker <|-- plot_checker
 }
+
 
 '_______________________________________________________________________________
-package Conflict <<Folder>> {
-    class Conflict {
-        display_options()
-        process_interaction()
-        summarize_conflict()
+package "Gameplay" <<Cloud>> {
+    '_______________________________________________________________________________
+    package Conflict <<Folder>> {
+        class Conflict {
+            display_options()
+            process_interaction()
+            summarize_conflict()
+        }
+
+        class ConflictManager {
+            generate_conflict()
+        }
+    }
+    object conflict
+    Conflict <|-- conflict
+    ConflictManager ..> conflict
+
+    '_______________________________________________________________________________
+    package UserInterface <<Folder>> {
+        class UI {
+            system : 'Linux'
+
+            describe_setting()
+            prompt("question")
+            prompt_list("question", options=[])
+            prompt_dict("question", options={})
+        }
+
+        class Visualizer {
+            draw_screen()
+        }
     }
 
-    class ConflictManager {
-        generate_conflict()
-    }
-}
+    '_______________________________________________________________________________
+    package WorldCreator <<Folder>> {
+        class Init <<Module>> {
+            ' VARIABLES
+            character_name : ""
+            character_mind_type : ""
+            character_body_type : ""
 
-'_______________________________________________________________________________
-package UserInterface <<Folder>> {
-    class UI {
-        system : 'Linux'
+            ' METHODS
+            read_mission()
+            read_settings()
+            read_characters()
+            
+            generate_map()
+            generate_characters()
+            generate_plot()
+        }
 
-        describe_setting()
-        prompt("question")
-        prompt_list("question", options=[])
-        prompt_dict("question", options={})
-    }
+        '----------------------------------
+        class Main <<Module>> {
+            ' VARIABLES
+            inventory : []
+            current_room : room_1
+            game_state : {}
 
-    class Visualizer {
-        draw_screen()
-    }
-}
+            ' METHODS
+            draw_scene()
+            prompt_user()
+            generate_conflict()
+            modify_stats()
 
-'_______________________________________________________________________________
-package Plot <<Folder>> {
-    class Checker {
-        win_conditions : []
-        lose_conditions : []
-        trigger_events : []
-
-        add_win_condition()
-        add_lose_condition()
-        check_win_conditions()
-        check_lose_conditions()
-        check_trigger_events()
-        cut_scene()
-    }
-
-    '----------------------------------
-    class Condition {
-        die()
-        is_in()
-        less_than()
-        greater_than()
-        equal_to()
-        less_than_or_equal_to()
-        greater_than_or_equal_to()
-    }
-}
-
-'_______________________________________________________________________________
-package WorldCreator <<Folder>> {
-    class Init <<Module>> {
-        ' VARIABLES
-        character_name : ""
-        character_mind_type : ""
-        character_body_type : ""
-
-        ' METHODS
-        read_mission()
-        read_settings()
-        read_characters()
-        
-        generate_map()
-        generate_characters()
-        generate_plot()
-    }
-
-    '----------------------------------
-    class Main <<Module>> {
-        ' VARIABLES
-        inventory : []
-        current_room : room_1
-        game_state : {}
-
-        ' METHODS
-        draw_scene()
-        prompt_user()
-        generate_conflict()
-        modify_stats()
+        }
     }
 }
-
-'_______________________________________________________________________________
-package Mission <<Folder>> {
-    class InitialState <<Module>> {
-        start_room : room_1
-    }
-
-    'class Generator {
-    '}
-}
-
-
-'===============================================================================
-' OBJECTS, INSTANTIATORS, and RELATIONSHIPS
-'-------------------------------------------------------------------------------
-WorldCreator .. Mission
-
-object hero
-Protagonist <|-- hero
-
-object skeleton
-Enemy <|-- skeleton
-
-object diamond
-Item <|-- diamond
-
-object key
-Item <|-- key
-
-object conflict
-Conflict <|-- conflict
-ConflictManager ..> conflict
-
-object room_1
-object room_2
-Room <|-- room_1
-Room <|-- room_2
-
-object door_1_2
-Door <|-- door_1_2
-room_1 .. door_1_2
-door_1_2 .. room_2
-
-UI .. Visualizer
-Visualizer .. Map
 
 
 '===============================================================================
 ' FORMATTING & LAYOUT
 '-------------------------------------------------------------------------------
+'_______________________________________
+'           MISSION CREATION
+'---------------------------------------
+' Align vertically: "Mission Creation", Mission, "Gameplay"
+"Mission Creation" -down[hidden]--> Mission
+Mission -down[hidden]--> "Gameplay"
+
+' Align horizontally: Character, Settings, Plot
+Character -[hidden]> Setting
+Setting   -[hidden]> Plot
+
+
+'_______________________________________
+'           MISSION
+'---------------------------------------
+' Align Vertically: WorldCreator, Mission
+note "WorldCreator imports Mission" as N1
+Mission .. N1
+N1 .. WorldCreator
+
+
+'_______________________________________
+'           GAMEPLAY
+'.......................................
+' Align horizontally: UserInterface, Conflict
+UserInterface -[hidden]> Conflict
+
+
+'_______________________________________
+' MISCELLANEOUS FORMATTING
+'.......................................
+' don't display the circle or stereotype name for these skinparams
 hide <<Module>> circle
 hide <<Module>> stereotype
 hide <<Object>> circle
