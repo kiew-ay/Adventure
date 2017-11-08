@@ -18,7 +18,7 @@ skinparam object {
 ' PACKAGES
 '-------------------------------------------------------------------------------
 '_______________________________________________________________________________
-package "Mission Creation" <<Cloud>> {
+package "Mission Creation" <<Cloud>> #Yellow {
     '_______________________________________________________________________________
     package Character <<Folder>> {
         class Character {
@@ -96,7 +96,7 @@ package "Mission Creation" <<Cloud>> {
         }
 
         '----------------------------------
-        class Condition {
+        abstract class Condition {
             die()
             is_in()
             less_than()
@@ -110,7 +110,7 @@ package "Mission Creation" <<Cloud>> {
 
 
 '_______________________________________________________________________________
-package Mission <<Node>> {
+package Mission <<Node>> #Orange {
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     '' The mission file instantiates everything that will exist in the mission.
     ''      - characters (hero, enemies, etc.)
@@ -149,7 +149,7 @@ package Mission <<Node>> {
 
 
 '_______________________________________________________________________________
-package "Gameplay" <<Cloud>> {
+package "Gameplay" <<Cloud>> #LightGreen {
     '_______________________________________________________________________________
     package Conflict <<Folder>> {
         class Conflict {
@@ -236,10 +236,15 @@ Setting   -[hidden]> Plot
 '_______________________________________
 '           MISSION
 '---------------------------------------
+note right of Mission
+    <b>Mission</b> instantiates all objects in the mission
+    using the classes defined in <b>Mission Creation</b>
+end note
+
 ' Align Vertically: WorldCreator, Mission
-note "WorldCreator imports Mission" as N1
-Mission .. N1
-N1 .. WorldCreator
+note "<b>WorldCreator</b> imports <b>Mission</b>" as MissionImportNote
+Mission .. MissionImportNote 
+MissionImportNote .. WorldCreator
 
 
 '_______________________________________
