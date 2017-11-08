@@ -17,16 +17,16 @@ class Condition:
         def f(a,b):
             if a<b:
                 return True
-            else
+            else:
                 return False
         return f
 
     @classmethod
     def greater_than(cls, a, b):
-          def f(a,b):
+        def f(a,b):
             if a>b:
                 return True
-            else
+            else:
                 return False
         return f
     @classmethod
@@ -34,7 +34,7 @@ class Condition:
         def f(a,b):
             if a==b:
                 return True
-            else
+            else:
                 return False
         return f
     @classmethod      
@@ -42,7 +42,7 @@ class Condition:
         def f(a,b):
             if a<=b:
                 return True
-            else
+            else:
                 return False
         return f
     @classmethod      
@@ -51,7 +51,7 @@ class Condition:
         def f(a,b):
             if a>=b:
                 return True
-            else
+            else:
                 return False
         return f
 
