@@ -20,7 +20,6 @@ class Condition:
             else
                 return False
         return f
-        pass
 
     @classmethod
     def greater_than(cls, a, b):
@@ -30,7 +29,6 @@ class Condition:
             else
                 return False
         return f
-        pass
     @classmethod
     def equal_to():
         def f(a,b):
@@ -39,10 +37,8 @@ class Condition:
             else
                 return False
         return f
-        pass
     @classmethod      
     def less_than_or_equal_to():
-        pass
         def f(a,b):
             if a<=b:
                 return True
