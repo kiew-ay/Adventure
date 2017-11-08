@@ -21,6 +21,7 @@ skinparam object {
 package "Mission Creation" <<Cloud>> #Yellow {
     '_______________________________________________________________________________
     package Character <<Folder>> {
+        '----------------------------------
         class Character {
             name : ''
             image : ''
@@ -32,8 +33,6 @@ package "Mission Creation" <<Cloud>> #Yellow {
             inventory : []
             skills : []
         }
-
-        '----------------------------------
         class Enemy {
             skills : []
             inventory : []
@@ -119,32 +118,31 @@ package Mission <<Node>> #Orange {
     ''      - plot (win/lose conditions, trigger conditions, etc.)
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     object hero
-    Protagonist <|-- hero
+        Protagonist <|-- hero
 
     object skeleton
-    Enemy <|-- skeleton
+        Enemy <|-- skeleton
 
     object diamond
-    Item <|-- diamond
+        Item <|-- diamond
 
     object key
-    Item <|-- key
+        Item <|-- key
 
     object room_1
+        Room <|-- room_1
+
     object room_2
-    Room <|-- room_1
-    Room <|-- room_2
+        Room <|-- room_2
 
     object door_1_2
-    Door <|-- door_1_2
-    'room_1   .. door_1_2
-    'door_1_2 .. room_2
+        Door <|-- door_1_2
 
     object map
-    Map <|-- map
+        Map <|-- map
 
     object plot_checker
-    Checker <|-- plot_checker
+        Checker <|-- plot_checker
 }
 
 
