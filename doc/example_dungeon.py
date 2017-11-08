@@ -57,13 +57,15 @@ import Character
 import Plot
 
 
-#--------------------------------- CREATE MAP ----------------------------------
+#--------------------------- CREATE ITEMS / ENEMIES ----------------------------
 #instantiate objects to be placed in rooms
 scroll   = Character.Item()
 key1     = Character.Item()
 diamond  = Character.Item()
 skeleton = Character.Enemy(name="Skeleton", hp=35)
 
+
+#--------------------------------- CREATE MAP ----------------------------------
 # instantiate rooms
 start    = Setting.Room()
 room2    = Setting.Room(contents=[scroll])
