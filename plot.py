@@ -1,19 +1,28 @@
-
-
+#Plot.py is the file which will keep track of the current plot status
+#This holds the gamestate info
+#This will be called during conflict to determine success or failure
+#Called during room completion to determine success or failure
+#
 
 class Condition:
     
-    @classmethod
-    def die():
+#Pass a character to this to determine if they are still alive.
+    @staticmethod
+    def die(character):
+        if self.less_than_or_equal_to(character.mind_hp,0):
+            return True,  'You died from mental failure'
+        elif self.less_than_or_equal_to(character.body_hp,0):
+            return True,  'You died from blood failure'
+        else:
+            return False, 'You are not dead'
+
+    @staticmethod
+    def is_in(item, inventory):
+        
         pass
 
-    @classmethod
-    def is_in():
-        pass
-
-
-    @classmethod
-    def less_than():
+    @staticmethod
+    def less_than(cls, a, b):
         def f(a,b):
             if a<b:
                 return True
@@ -21,7 +30,8 @@ class Condition:
                 return False
         return f
 
-    @classmethod
+
+    @staticmethod
     def greater_than(cls, a, b):
         def f(a,b):
             if a>b:
@@ -29,23 +39,28 @@ class Condition:
             else:
                 return False
         return f
-    @classmethod
-    def equal_to():
+    
+    @staticmethod
+    def equal_to(cls, a, b):
         def f(a,b):
             if a==b:
                 return True
             else:
                 return False
         return f
-    @classmethod      
-    def less_than_or_equal_to():
+    
+    
+    @staticmethod
+    def less_than_or_equal_to(cls, a, b):
         def f(a,b):
             if a<=b:
                 return True
             else:
                 return False
         return f
-    @classmethod      
+   
+   
+    @staticmethod
     def greater_than_or_equal_to():
         pass
         def f(a,b):
@@ -57,6 +72,7 @@ class Condition:
 
 
 class Plot():
+    #win condition is a list(?) or dictionary of things
     win_condition  = []
     lose_condition = []
     trigger_events = []
