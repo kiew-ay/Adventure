@@ -18,7 +18,7 @@ skinparam object {
 ' PACKAGES
 '-------------------------------------------------------------------------------
 '_______________________________________________________________________________
-package "Mission Creation" <<Cloud>> #Yellow {
+package "Mission Creation" <<Cloud>> #Wheat {
     '_______________________________________________________________________________
     package Character <<Folder>> {
         '----------------------------------
@@ -26,40 +26,56 @@ package "Mission Creation" <<Cloud>> #Yellow {
             name : ''
             image : ''
             hp : 100
+            skills : []
+            inventory : []
+            self.hp_plus(amount)
+            self.hp_minus(amount)
         }
         class Protagonist {
             body_type : ''
             mind_type : ''
-            inventory : []
-            skills : []
+            self.hp_plus(amount)
+            self.hp_minus(amount)
+            self.add_to_inventory(item)
+            self.remove_from_inventory(item)
         }
         class Enemy {
-            skills : []
-            inventory : []
+            self.hp_plus(amount)
+            self.hp_minus(amount)
         }
         Character <|-- Protagonist
         Character <|-- Enemy
 
         '----------------------------------
-        class Interactible {
-            inspect(self)
+        class Skill {
+            self.name : ""
+            self.description : ""
+            self.do()
         }
-        class Item {
-            pick_up(self)
-            use(self)
-        }   
-        Interactible <|-- Item
+        class Punch {
+            self.damage : 10
+        }
+        Character *. "*" Skill
+        Skill <|-- Punch
 
         '----------------------------------
+        class Interactible {
+            self.inspect()
+        }
+        class Item {
+            self.pick_up()
+            self.use()
+        }   
         class Door {
             self.rooms = [room1, room2]
             self.key : None
             self.status : (closed, unlocked)
-            unlock(self)
-            open(self)
+            self.unlock()
+            self.open()
             'toggle current_room between rooms in self.rooms
-            use(self): Toggle current_room
+            self.go_through(): Toggle current_room
         }
+        Interactible <|-- Item
         Interactible <|-- Door
     }
 
@@ -69,7 +85,7 @@ package "Mission Creation" <<Cloud>> #Yellow {
             contents : []
             doors : []
             self.discovered : False
-            describe(self)
+            self.describe()
         }
 
         class Map {
@@ -109,7 +125,7 @@ package "Mission Creation" <<Cloud>> #Yellow {
 
 
 '_______________________________________________________________________________
-package Mission <<Node>> #Orange {
+package Mission <<Node>> #BUSINESS {
     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     '' The mission file instantiates everything that will exist in the mission.
     ''      - characters (hero, enemies, etc.)
@@ -122,6 +138,9 @@ package Mission <<Node>> #Orange {
 
     object skeleton
         Enemy <|-- skeleton
+
+    object punch
+        Punch <|-- punch
 
     object diamond
         Item <|-- diamond
@@ -147,7 +166,7 @@ package Mission <<Node>> #Orange {
 
 
 '_______________________________________________________________________________
-package "Gameplay" <<Cloud>> #LightGreen {
+package "Gameplay" <<Cloud>> #GreenYellow {
     '_______________________________________________________________________________
     package Conflict <<Folder>> {
         class Conflict {
@@ -168,7 +187,6 @@ package "Gameplay" <<Cloud>> #LightGreen {
     package UserInterface <<Folder>> {
         class UI {
             system : 'Linux'
-
             describe_setting()
             prompt("question")
             prompt_list("question", options=[])
@@ -223,13 +241,18 @@ package "Gameplay" <<Cloud>> #LightGreen {
 '           MISSION CREATION
 '---------------------------------------
 ' Align vertically: "Mission Creation", Mission, "Gameplay"
-"Mission Creation" -down[hidden]--> Mission
-Mission -down[hidden]--> "Gameplay"
+"Mission Creation" -down[hidden]-> Mission
+Mission -down[hidden]-> "Gameplay"
 
 ' Align horizontally: Character, Settings, Plot
 Character -[hidden]> Setting
 Setting   -[hidden]> Plot
 
+' Align Character above Enemy
+Character -[hidden]-> Enemy
+
+' Align Character over WorldCreator
+Character -[hidden]-> WorldCreator
 
 '_______________________________________
 '           MISSION
@@ -239,9 +262,9 @@ note right of Mission
     using the classes defined in <b>Mission Creation</b>
 end note
 
-' Align Vertically: WorldCreator, Mission
+' Align Mission over WorldCreator
 note "<b>WorldCreator</b> imports <b>Mission</b>" as MissionImportNote
-Mission .. MissionImportNote 
+Mission .left[hidden]. MissionImportNote 
 MissionImportNote .. WorldCreator
 
 

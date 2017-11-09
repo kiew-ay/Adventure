@@ -55,6 +55,13 @@ LEGEND:
 import Setting
 import Character
 import Plot
+import GetUserInfo
+
+
+#----------------------------- GET CHARACTER INFO ------------------------------
+hero_name = input("What is your name?  > ")
+body_type = GetUserInfo.get_body_type()
+mind_type = GetUserInfo.get_mind_type()
 
 
 #--------------------------- CREATE ITEMS / ENEMIES ----------------------------
@@ -89,7 +96,16 @@ door_4_treasure = Character.Door(room4, treasure, locked=True,  closed=True, key
 
 
 #------------------------------------ HERO -------------------------------------
-hero  = Character.Protagonist()
+# instantiate hero
+hero  = Character.Protagonist( name=hero_name,
+                               body_type=body_type,
+                               mind_type=mind_type )
+
+# add to skills
+punch = Punch(damage=10)
+hero.skills.append(punch)
+
+# add to inventory
 torch = Character.Item()
 hero.inventory.append(torch)    # give the hero a torch to start with
 
