@@ -9,12 +9,14 @@ class Condition:
 #Pass a character to this to determine if they are still alive.
     @staticmethod
     def die(character):
-        if self.less_than_or_equal_to(character.mind_hp,0):
-            return True,  'You died from mental failure'
-        elif self.less_than_or_equal_to(character.body_hp,0):
-            return True,  'You died from blood failure'
-        else:
-            return False, 'You are not dead'
+##TODO MAKE THIS A REtuRN F FUNCTION
+        def f(a,b)        
+            if self.less_than_or_equal_to(character.mind_hp,0):
+                return True,  'You died from mental failure'
+            elif self.less_than_or_equal_to(character.body_hp,0):
+                return True,  'You died from blood failure'
+            else:
+                return False, 'You are not dead'
 
     @staticmethod
     def is_in(item, inventory):
