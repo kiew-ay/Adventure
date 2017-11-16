@@ -23,17 +23,17 @@ package "Mission Creation" <<Cloud>> #Wheat {
     package Character <<Folder>> {
         '----------------------------------
         class Character {
-            name : ''
-            image : ''
-            hp : 100
-            skills : []
-            inventory : []
+            self.name : ''
+            self.image : ''
+            self.hp : 100
+            self.skills : []
+            self.inventory : []
             self.hp_plus(amount)
             self.hp_minus(amount)
         }
         class Protagonist {
-            body_type : ''
-            mind_type : ''
+            self.body_type : ''
+            self.mind_type : ''
             self.hp_plus(amount)
             self.hp_minus(amount)
             self.add_to_inventory(item)
@@ -60,6 +60,8 @@ package "Mission Creation" <<Cloud>> #Wheat {
 
         '----------------------------------
         class Interactible {
+            self.name : ""
+            self.interactions : []
             self.inspect()
         }
         class Item {
@@ -75,6 +77,7 @@ package "Mission Creation" <<Cloud>> #Wheat {
             'toggle current_room between rooms in self.rooms
             self.go_through(): Toggle current_room
         }
+        Interactible *. "*" Skill
         Interactible <|-- Item
         Interactible <|-- Door
     }
@@ -82,32 +85,34 @@ package "Mission Creation" <<Cloud>> #Wheat {
     '_______________________________________________________________________________
     package Setting <<Folder>> {
         class Room {
-            contents : []
-            doors : []
+            self.contents : []
+            self.doors : []
             self.discovered : False
             self.describe()
         }
 
         class Map {
-            draw_map()
-            draw_room()
-            draw_minimap()
+            self.draw_map()
+            self.draw_room()
+            self.draw_minimap()
         }
     }
 
     '_______________________________________________________________________________
     package Plot <<Folder>> {
         class Checker {
-            win_conditions : []
-            lose_conditions : []
-            trigger_events : []
+            self.win_conditions : []
+            self.lose_conditions : []
+            self.trigger_events : []
 
-            add_win_condition()
-            add_lose_condition()
-            check_win_conditions()
-            check_lose_conditions()
-            check_trigger_events()
-            cut_scene()
+            self.add_win_condition()
+            self.add_lose_condition()
+            self.check_win_conditions()
+            self.check_lose_conditions()
+            self.check_trigger_conditions()
+
+            self.victory()
+            self.failure()
         }
 
         '----------------------------------
@@ -170,30 +175,34 @@ package "Gameplay" <<Cloud>> #GreenYellow {
     '_______________________________________________________________________________
     package Conflict <<Folder>> {
         class Conflict {
-            display_options()
-            process_interaction()
-            summarize_conflict()
+            self.character_1
+            self.character_2
+            self.main()
+            self.display_options()
+            self.process_interaction()
+            self.summarize_conflict()
         }
 
-        class ConflictManager {
-            generate_conflict()
-        }
+        'class ConflictManager {
+        '    generate_conflict()
+        '}
     }
     object conflict
     Conflict <|-- conflict
-    ConflictManager ..> conflict
+    'ConflictManager ..> conflict
 
     '_______________________________________________________________________________
     package UserInterface <<Folder>> {
-        class UI {
+        abstract class UI {
             system : 'Linux'
             describe_setting()
             prompt("question")
-            prompt_list("question", options=[])
-            prompt_dict("question", options={})
+            prompt_bool("question")
+            prompt_list("question", options_list=[])
+            prompt_dict("question", options_dict={})
         }
 
-        class Visualizer {
+        abstract class Visualizer {
             draw_screen()
         }
     }
@@ -202,18 +211,11 @@ package "Gameplay" <<Cloud>> #GreenYellow {
     package WorldCreator <<Folder>> {
         class Init <<Module>> {
             ' VARIABLES
-            character_name : ""
-            character_mind_type : ""
-            character_body_type : ""
+            current_location = Mission.STARTING_LOCATION
+            hero = Mission.hero
 
             ' METHODS
-            read_mission()
-            read_settings()
-            read_characters()
-            
-            generate_map()
-            generate_characters()
-            generate_plot()
+            import_mission_file()
         }
 
         '----------------------------------
