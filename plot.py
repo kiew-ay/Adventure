@@ -114,10 +114,11 @@ class Checker():
 
 
     def check_trigger_events(self):
-        pass
-
-    def cut_scene():
-        pass
+        trigger_count = 0
+        for trigger in self.trigger_events:
+            if trigger_count>=1:
+                return True,'Trigger occurance'
+            trigger_count+=1    
 
     def victory():
         pass
