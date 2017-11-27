@@ -50,6 +50,7 @@ package "Mission Creation" <<Cloud>> #Wheat {
         class Skill {
             self.name : ""
             self.description : ""
+            self.description_format : ""
             self.do()
         }
         class Punch {
