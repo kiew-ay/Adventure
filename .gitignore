@@ -1,3 +1,9 @@
+# The .gitignore file tells git to ignore certain files and/or directories.
+# Usually we'll tell git to ignore hidden temp files, swap file, and .pyc files
+# that we generate when we're working on code.  This way those files don't get
+# committed accidentally (which can cause some really annoying issues).
+#-------------------------------------------------------------------------------
+
 # swap and temp files
 *.swp
 *.swo
