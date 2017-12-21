@@ -81,7 +81,7 @@ room4    = Setting.Room()
 treasure = Setting.Room(contents=[skeleton, diamond])
 
 # --> define starting room (which WorldCreator will use to place the hero in)
-STARTING_ROOM = start
+STARTING_LOCATION = start
 
 # create map layout
 dungeon = Setting.layout(   [None,  room3,  room4],
@@ -116,9 +116,12 @@ hero_has_diamond    = Plot.Condition.is_in(diamond, hero.inventory)
 skeleton_dies       = Plot.Condition.die(skeleton)
 hero_dies           = Plot.Condition.die(hero)
 
+# instantiate Plot Checker
+plot = Plot.Checker()
+
 # add to win conditions
-Plot.Checker.add_win_condition( hero_has_diamond )
-Plot.Checker.add_win_condition( skeleton_dies )
+plot.add_win_condition( hero_has_diamond )
+plot.add_win_condition( skeleton_dies )
 
 # add to lose conditions
-Plot.Checker.add_lose_condition( hero_dies )
+plot.add_lose_condition( hero_dies )
