@@ -29,11 +29,16 @@ class Condition:
                 return True,  'You died from blood failure'
             else:
                 return False, 'You are not dead'
+        return f
 
     @staticmethod
     def is_in(item, inventory):
-        
-        pass
+        def f(item, iventory):
+            if item in inventory:
+                return True
+            else:
+                return False
+        return f
 
     @staticmethod
     def less_than(a, b):
@@ -82,7 +87,7 @@ class Condition:
                 return True
             else:
                 return False
-
+        return f
 
 class Checker():
     def __init__(self):
@@ -99,19 +104,17 @@ class Checker():
         self.lose_condition.append(a)
 
     def check_win_conditions(self):
-        win_condition_count = 0
+        win_condition_list = []
         for condition in self.win_condition:
-            if condition_count>=5:
-                return True,'Victory!'
-            win_condition_count+=1    
-            
-    def check_lose_conditions(self):
-        loss_condition_count = 0
-        for condition in self.lose_condition:
-            if loss_condition>=5:
-                return True,'Failure'
-            loss_condition_count+=1    
+            win_condition_list.append(condition())
+        return win_condition_list
 
+    def check_lose_conditions(self):
+        loss_condition_list = []
+        return win_condition_list
+        for condition in self.lose_condition:
+            loss_condition_list.append(condition())
+        return loss_condition_list
 
     def check_trigger_events(self):
         trigger_count = 0
@@ -121,11 +124,10 @@ class Checker():
             trigger_count+=1    
 
     def victory():
-        pass
+        print( 'Victory')
 
     def failure():
-        pass
-
+        print('You Died or Something')
 
 
 
