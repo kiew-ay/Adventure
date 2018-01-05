@@ -30,17 +30,34 @@ class Condition:
             else:
                 return False, 'You are not dead'
         return f
-
+   
     @staticmethod
+    """
+    @staticmethod
+    def in_in(item,inventory):
+    arg item
+    arg inventory
+    return bool
+
+    This function will inspect the inventory for an item
+    """
     def is_in(item, inventory):
-        def f(item, iventory):
-            if item in inventory:
-                return True
-            else:
-                return False
-        return f
-
+         def f(item, iventory):
+             if item in inventory:
+                 return True
+             else:
+                 return False
+         return f
+  
     @staticmethod
+    """
+    @staticmethod
+    def less_than
+    arg a,b
+    return bool
+
+    This function will return true if a<b, else false
+    """
     def less_than(a, b):
         def f(a,b):
             if a<b:
@@ -51,6 +68,14 @@ class Condition:
 
 
     @staticmethod
+    """
+    @staticmethod
+    def greater_than
+    arg a,b
+    return bool
+
+    This function will return true if a>b, else false
+    """
     def greater_than(a, b):
         def f(a,b):
             if a>b:
@@ -60,6 +85,14 @@ class Condition:
         return f
     
     @staticmethod
+    """
+    @staticmethod
+    def equal_to
+    arg a,b
+    return bool
+
+    This function will return true if a=b, else false
+    """
     def equal_to(a, b):
         def f(a,b):
             if a==b:
@@ -70,6 +103,14 @@ class Condition:
     
     
     @staticmethod
+    """
+    @staticmethod
+    def less_than_or_equal_to
+    arg a,b
+    return bool
+
+    This function will return true if a<=b, else false
+    """
     def less_than_or_equal_to(a, b):
         def f(a,b):
             if a<=b:
@@ -80,6 +121,14 @@ class Condition:
    
    
     @staticmethod
+    """
+    @staticmethod
+    def greater_than_or_equal_to
+    arg a,b
+    return bool
+
+    This function will return true if a>=b, else false
+    """
     def greater_than_or_equal_to():
         pass
         def f(a,b):
@@ -90,6 +139,12 @@ class Condition:
         return f
 
 class Checker():
+"""
+This Class checks for win and loss conditions.
+If contains the lists of conditions for winning, losing and triggering evens
+This class holds hte methods to append win, loss, and trigger goncitions
+
+"""
     def __init__(self):
         self.win_condition  = []
         self.lose_condition = []
