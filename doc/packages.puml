@@ -62,6 +62,7 @@ package "Mission Creation" <<Cloud>> #Wheat {
         '----------------------------------
         class Interactible {
             self.name : ""
+            self.description: ""
             self.interactions : []
             self.inspect()
         }
